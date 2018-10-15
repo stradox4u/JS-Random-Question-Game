@@ -15,23 +15,21 @@ Question.prototype.displayQuestion = function() {
             console.log(i + ':' + this.answers[i]);
             }
 }
-    
+//Score Counter Variable, Mutated on each Correct Answer  
 var initialScore = 0;
 //Correct Answer Checker Method
-Question.prototype.checkAnswer = function() {
-    var userAnswer = prompt('Please enter the correct answer here (Enter the number only)');
-    if (parseInt(userAnswer) === this.correctAnswer) {
+Question.prototype.checkAnswer = function(ans) {
+    if (ans === this.correctAnswer) {
+        initialScore++;
         console.log('That is the correct answer!');
+        console.log('Your current score is ' + initialScore + '!');
         console.log('------------------------------');
     } else {
         console.log('That is a wrong answer. Please try again!');
+        console.log('Your current score is ' + initialScore + '!');
         console.log('------------------------------');
-
     }
-    if(userAnswer !== 'exit') {
-        nextQuestion();
-    }
-       
+    
 }
 
 //Questions
@@ -43,17 +41,20 @@ var q3 = new Question('Which Formula One driver is the most successful of all ti
 
 var questions = [q1, q2, q3];
 
-
-var n = Math.floor(Math.random() * questions.length);
-questions[n].displayQuestion();
-questions[n].checkAnswer();
-
 function nextQuestion() {
-    var qNext = Math.floor(Math.random() * questions.length);
-    questions[qNext].displayQuestion();
-    questions[qNext].checkAnswer();
-}
+    var n = Math.floor(Math.random() * questions.length);
 
+    questions[n].displayQuestion();
+
+    var userAnswer = prompt('Please enter the correct answer here (Enter the number only)');
+
+    if(userAnswer!== 'exit') {
+        questions[n].checkAnswer(parseInt(userAnswer));
+        nextQuestion();
+    } 
+    
+}
+nextQuestion();
 
 }) ();
 
